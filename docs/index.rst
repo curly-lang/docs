@@ -7,12 +7,14 @@ Welcome to Curly's documentation!
 =================================
 
 Contents:
+---------
 
 .. toctree::
    :maxdepth: 2
 
    readme.md
    assignments.md
+   functions.md
 
 
 
