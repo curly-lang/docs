@@ -24,7 +24,7 @@ git clone https://github.com/curly-lang/curly-lang && cd curly-lang && cargo ins
 
 ## Support
 If you are having issues, please let us know.
-We have a mailing list located at: project@google-groups.com
+We have a Discord server located [here](https://discord.gg/Gxfr6JDecv).
 
 ## Licence
 The project is licensed under the LGPL licence.
