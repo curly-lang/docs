@@ -10,9 +10,9 @@ Contents:
 
 .. toctree::
    :maxdepth: 2
-   :glob:
 
-   *
+   readme.md
+   assignments.md
 
 
 
