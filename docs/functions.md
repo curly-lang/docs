@@ -163,6 +163,17 @@ func 3
 
 Amazing right!
 
+## Function Types
+Functions are first class objects, which means we can even pass in functions to other functions! As mentioned before, functions have the type `A -> B -> C`, so we can use this type in the type declaration of an argument. Here's an example:
+```
+>>>
+apply f: Int -> Int, x: Int = f x
+((Int -> Int) -> Int -> Int) <func 0x7f65a6197380>
+>>>
+apply (lambda x: Int = x * x) 7
+49
+```
+
 ## Church numerals
 Church numbers are really cool. They're a representation of numbers using only functions, and because of partial application, we can do this in Curly! Here's with partial application:
 ```
