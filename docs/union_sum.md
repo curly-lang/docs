@@ -100,11 +100,66 @@ type DivResult = Ok: Float | Err: Float
 
 Cool! Now let's define a function that safely divides two numbers!
 ```
+>>>
 safeDiv a: Float, b: Float =
     if b == 0 or b != b then
         DivResult::Err b
     else
         DivResult::Ok (a / b)
+<func 0x7f0aba15f490> : Float -> Float -> Err: Float | Ok: Float
 ```
 
-oopsies this crashes ill be right back
+Don't worry about the weird `b != b` thing; that is just to test for `NaN`. We can then apply this function just as normal:
+```
+safeDiv 2.3 5.6
+{ Ok = 0.41071 } : Err: Float | Ok: Float
+>>>
+safeDiv 4.5 0.0
+{ Err = 0.00000 } : Err: Float | Ok: Float
+```
+
+This time, the value returned is of the form `{ label = value }`. To unwrap this, we use a match expression once again, but slightly differently:
+```
+>>>
+match safeDiv 4.5 0.0
+to v: (Ok: Float) => v
+to _: (Err: Float) => 0
+0
+```
+
+Note that you cannot convert to a sum type using `:`. This is what happens if you try:
+```
+>>>
+2 : DivResult
+error: Invalid cast
+  ┌─ <stdin>:1:5
+  │
+1 │ 2 : DivResult
+  │ -   ^^^^^^^^^ Cannot convert `Int` to `DivResult`
+  │ │
+  │ Value has type `Int`
+```
+
+This is because it doesn't know which `Int` type to convert to, so instead of trying to infer it and possibly getting the wrong one, it just crashes. You must always use `Type::Subtype` to create a sum type. Speaking of which, what's the type of `DivResult::Ok`?
+```
+>>>
+DivResult::Ok
+<func 0x7f0aba150390> : Float -> DivResult
+```
+
+Whoa it's just a function! This means you can actually pass it into other functions if you want!
+
+## Enums
+Sometimes, you want a value in a sum or union type that doesn't actually hold a value, but instead represents a possible option. For example, in Haskell there's the `Maybe` type, and in Rust there's the `Option<T>` type, since neither of these support `null` or `nil` values. Similarly, Curly does not support a `null` or `nil` value. So how would you define an `Option` type? Well, you use an enum!
+```
+type Option = Some: Int | enum None
+```
+
+We can make an instance of this enum using `Option::None` and match it using `enum None`. For example:
+```
+>>>
+match Option::None
+to s: (Some: Int) => s
+to enum None => 0
+0
+```
