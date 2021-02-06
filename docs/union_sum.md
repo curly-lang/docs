@@ -163,3 +163,9 @@ to s: (Some: Int) => s
 to enum None => 0
 0
 ```
+
+Enums are pretty neat. Here's another example:
+```
+type TrafficLights = enum Green | enum Yellow | enum Red
+```
+
