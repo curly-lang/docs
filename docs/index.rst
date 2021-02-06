@@ -15,6 +15,7 @@ Contents:
    readme.md
    assignments.md
    functions.md
+   union_sum.md
 
 
 
