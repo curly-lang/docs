@@ -4,10 +4,10 @@ You can declare functions very simply using Haskell-like syntax:
 ```
 >>>
 id x: Int = x
-(Int -> Int) <func 0x7f7b1c34f360>
+<func 0x7f7b1c34f360> : Int -> Int
 >>>
 double x: Float = x + x
-(Float -> Float) <func 0x7f7b1c354360>
+<func 0x7f7b1c354360> : Float -> Float
 ```
 
 Note that arguments must be annotated with their type; however, the return type is implied. We can then apply the function as so (note the absence of parentheses):
@@ -38,10 +38,10 @@ Functions with multiple arguments have their arguments separated by commas. For 
 ```
 >>>
 sum x: Int, y: Int = x + y
-(Int -> Int -> Int) <func 0x7f7b1c34a370>
+<func 0x7f7b1c34a370> : Int -> Int -> Int
 >>>
 product x: Float, y: Float, z: Float = x * y * z
-(Float -> Float -> Float -> Float) <func 0x7f7b1c345370>
+<func 0x7f7b1c345370> : Float -> Float -> Float -> Float
 ```
 
 We can apply them quite similarly:
@@ -66,7 +66,7 @@ What happens if we call this function with only one argument? Well, let's try it
 ```
 >>>
 product 4.5
-(Float -> Float -> Float) <func 0x7f7b1c345370>
+<func 0x7f7b1c345370> : Float -> Float -> Float
 ```
 
 Interesting. Instead of getting an error, we get back a function, except this function is missing one argument in its type signature! This is called currying. By applying only some of the arguments to the function, we curry the function.
@@ -75,7 +75,7 @@ We can assign this new function to another variable and get a new function that 
 ```
 >>>
 product_4_5 = product 4.5
-(Float -> Float -> Float) <func 0x7f7b1c345370>
+<func 0x7f7b1c345370> : Float -> Float -> Float
 >>>
 product 4.5 6.0 7.0 == product_4_5 6.0 7.0
 true
@@ -88,7 +88,7 @@ distSqrd x1: Float, y1: Float, x2: Float, y2: Float =
 	with dx = x2 - x1,
 		dy = y2 - y1,
 		dx * dx + dy * dy
-(Float -> Float -> Float -> Float -> Float) <func 0x7f7b1c0f7380>
+<func 0x7f7b1c0f7380> : Float -> Float -> Float -> Float -> Float
 ```
 
 This is pretty neat, but what if we want to define a function that calculates the distance from the origin? Well, we could define a second function like so:
@@ -101,7 +101,7 @@ But this could be made better. We can rewrite this to take advantage of our newf
 ```
 >>>
 distToOriginSqrd = distSqrd 0.0 0.0
-(Float -> Float -> Float) <func 0x7f7b1c0f7380>
+<func 0x7f7b1c0f7380> : Float -> Float -> Float
 ```
 
 Then we can use this just like a regular function!
@@ -116,7 +116,7 @@ Lambda functions are cool. If you don't know what lambda functions are, they are
 ```
 >>>
 lambda x: Float = x + x
-(Float -> Float) <func 0x7f7b1c0e3340>
+<func 0x7f7b1c0e3340> : Float -> Float
 ```
 
 Do not confuse this with assigning to a function called `lambda`! `lambda` is a keyword, and as such, this will not create a function called lambda! In fact, if you try to use `lambda` as a function, you will get a syntax error:
@@ -141,7 +141,7 @@ Or we could assign it to a variable:
 ```
 >>>
 double' = lambda x: Float = x + x
-(Float -> Float) <func 0x7f7b1c0de360>
+<func 0x7f7b1c0de360> : Float -> Float
 >>>
 double' 0.5
 1.00000
@@ -168,7 +168,7 @@ Functions are first class objects, which means we can even pass in functions to 
 ```
 >>>
 apply f: Int -> Int, x: Int = f x
-((Int -> Int) -> Int -> Int) <func 0x7f65a6197380>
+<func 0x7f65a6197380> : (Int -> Int) -> Int -> Int
 >>>
 apply (lambda x: Int = x * x) 7
 49
@@ -180,14 +180,14 @@ Church numbers are really cool. They're a representation of numbers using only f
 >>>
 func_to_int n: (Int -> Int) -> Int -> Int =
 	n (lambda x: Int = x + 1) 0
-(((Int -> Int) -> Int -> Int) -> Int) <func 0x7f52d7b223e0>
+<func 0x7f52d7b223e0> : ((Int -> Int) -> Int -> Int) -> Int
 >>>
 succ n: (Int -> Int) -> Int -> Int, f: Int -> Int, x: Int =
 	f (n f x)
-(((Int -> Int) -> Int -> Int) -> (Int -> Int) -> Int -> Int) <func 0x7f52d7b1d390>
+<func 0x7f52d7b1d390> : ((Int -> Int) -> Int -> Int) -> (Int -> Int) -> Int -> Int
 >>>
 zero f: Int -> Int, x: Int = x
-((Int -> Int) -> Int -> Int) <func 0x7f52d7b18380>
+<func 0x7f52d7b18380> : (Int -> Int) -> Int -> Int
 >>>
 func_to_int (succ zero)
 1
@@ -202,12 +202,12 @@ And here's with closures:
 func_to_int n: (Int -> Int) -> Int -> Int =
 	with to_int x: Int = x + 1,
 		n to_int 0
-(((Int -> Int) -> Int -> Int) -> Int) <func 0x7f575f9c43e0>
+<func 0x7f575f9c43e0> : ((Int -> Int) -> Int -> Int) -> Int
 >>>
 succ n: (Int -> Int) -> Int -> Int =
 	with next f: Int -> Int, x: Int = f (n f x),
 		next
-(((Int -> Int) -> Int -> Int) -> (Int -> Int) -> Int -> Int) <func 0x7f575f9bf3d0>
+<func 0x7f575f9bf3d0> : ((Int -> Int) -> Int -> Int) -> (Int -> Int) -> Int -> Int
 >>>
 zero f: Int -> Int, x: Int = x
 ((Int -> Int) -> Int -> Int) <func 0x7f575f9ba380>
